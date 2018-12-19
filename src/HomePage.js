@@ -1,7 +1,6 @@
 import React from "react";
 import { Card } from "reactstrap";
 import NewsFeed from "./NewsFeed";
-import { RSSParser } from "rss-parser";
 
 class HomePage extends React.Component {
   render() {

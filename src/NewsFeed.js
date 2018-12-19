@@ -5,14 +5,14 @@ import axios from "axios";
 
 class NewsFeed extends React.Component {
   state = {
-    newsFeed: {}
+    newsFeed: []
   };
 
   componentDidMount = () => {
     axios
       .get("http://localhost:50199/api/newsFeed")
       .then(Response => {
-        console.log(Response);
+        console.log(Response.data);
         this.setState({ newsFeed: Response.data });
       })
       .catch(error => {
@@ -22,10 +22,24 @@ class NewsFeed extends React.Component {
   render() {
     return (
       <div className="text-center">
-        <Card>
-          <h2>Today's News Feed</h2>
-          <NewsCard newsFeed={this.state.newsFeed} />
-        </Card>
+        {this.state.newsFeed !== undefined ? (
+          <Card>
+            <h2>Today's News Feed</h2>
+            <div>
+              {this.state.newsFeed.map((news, index) => (
+                <div key={index}>
+                  <div>
+                    <NewsCard
+                      title={news.Name}
+                      link={news.Link}
+                      site={news.Site}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        ) : null}
       </div>
     );
   }

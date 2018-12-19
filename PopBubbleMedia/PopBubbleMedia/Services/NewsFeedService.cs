@@ -12,6 +12,7 @@ namespace PopBubbleMedia.Services
 {
     public class NewsFeedService
     {
+
         string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
         public List<NewsArticle> GetAll()
@@ -41,24 +42,6 @@ namespace PopBubbleMedia.Services
 
                     return newsArticles;
                 }
-            }
-        }
-
-        public void InsertAll(NewsArticle newsArticle)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-
-                SqlCommand command = con.CreateCommand();
-                command.CommandText = "WebFeed_Insert";
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-
-                command.Parameters.AddWithValue("@Name", newsArticle.Name);
-                command.Parameters.AddWithValue("@Link", newsArticle.Link);
-                command.Parameters.AddWithValue("@Site", newsArticle.Site);
-
-                command.ExecuteNonQuery();
             }
         }
 

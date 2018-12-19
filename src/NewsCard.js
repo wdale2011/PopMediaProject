@@ -1,28 +1,33 @@
 import React from "react";
 import { Card } from "reactstrap";
-import newsPaperImage from "./images/NewsPaper.jpg";
+import newsIcon from "./images/newsIcon.jpg";
 
 class NewsCard extends React.Component {
-  state = {
-    newsFeed: this.props.newsFeed
+  websiteRedirect = url => {
+    window.location = url;
   };
 
   render() {
     return (
       <div>
         <div className="col-12">
-          <Card className="box-shadow-10">
+          <Card
+            className="box-shadow-10"
+            onClick={() => this.websiteRedirect(this.props.link)}
+          >
             <br />
-            <h3>News Title:</h3>
+            <h3>Headline : {this.props.title}</h3>
             <span>
-              <img src={newsPaperImage} alt="newsPaperImage" />
+              <img
+                src={newsIcon}
+                alt="newsPaperImage"
+                height={200}
+                width={200}
+              />
             </span>
             <br />
             <h4>
-              News Link :<span />
-            </h4>
-            <h4>
-              News Source :
+              News Source : {this.props.site}
               <span />
             </h4>
           </Card>

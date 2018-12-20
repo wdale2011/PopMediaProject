@@ -8,3 +8,6 @@
     position: absolute;
     top: 50%;
 }
+body {
+    background-image: url("./images/Background.jpg")
+}

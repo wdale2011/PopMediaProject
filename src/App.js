@@ -4,6 +4,7 @@ import "./App.css";
 import HomePage from "./HomePage";
 import Login from "./Login";
 import Register from "./Register";
+import AccountInfo from "./AccountInfo";
 
 class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class App extends React.Component {
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/home" component={HomePage} />
+          <Route exact path="/accountInfo" component={AccountInfo} />
         </div>
       </Router>
     );

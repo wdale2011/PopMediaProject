@@ -12,10 +12,14 @@ class HomePage extends React.Component {
     this.props.history.push("/register");
   };
 
+  accountInfo = () => {
+    this.props.history.push("/accountInfo");
+  };
+
   render() {
     return (
       <div>
-        <div className="container-fluid mainGradient">
+        <div className="container-fluid background">
           <div className="col-12">
             <br />
             <FormGroup className="text-center">
@@ -28,7 +32,7 @@ class HomePage extends React.Component {
                 Logout
               </Button>
               <Button
-                onClick={this.updateAccountInfo}
+                onClick={this.accountInfo}
                 size="lg"
                 color="primary"
                 className="box-shadow"

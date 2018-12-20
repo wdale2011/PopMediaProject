@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "reactstrap";
 import newsIcon from "./images/newsIcon.jpg";
+import "./HomePage.css";
 
 class NewsCard extends React.Component {
   websiteRedirect = url => {
@@ -12,7 +13,7 @@ class NewsCard extends React.Component {
       <div>
         <div className="col-12">
           <Card
-            className="box-shadow-10"
+            className="box-shadow-10 hover"
             onClick={() => this.websiteRedirect(this.props.link)}
           >
             <br />

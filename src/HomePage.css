@@ -1,0 +1,10 @@
+.mainGradient {
+    background-image: linear-gradient(to right, teal, purple)
+}
+.hover {
+    cursor: pointer;
+}
+.pushDown {
+    position: absolute;
+    top: 50%;
+}

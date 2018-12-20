@@ -1,22 +1,53 @@
 import React from "react";
-import { Card } from "reactstrap";
+import { Card, Button, FormGroup } from "reactstrap";
 import NewsFeed from "./NewsFeed";
+import "./HomePage.css";
 
 class HomePage extends React.Component {
+  logout = () => {
+    this.props.history.push("/");
+  };
+
+  register = () => {
+    this.props.history.push("/register");
+  };
+
   render() {
     return (
       <div>
-        <div className="container-fluid">
-          <Card className="box-shadow-2">
-            <div className="text-center">
-              <h1>Welcome to PoptheBubbleMedia!</h1>
-              <h2>
-                Your tool to popping your media bubble and broadening your
-                perspective
-              </h2>
-            </div>
-          </Card>
+        <div className="container-fluid mainGradient">
+          <div className="col-12">
+            <br />
+            <FormGroup className="text-center">
+              <Button
+                onClick={this.logout}
+                size="lg"
+                color="danger"
+                className="box-shadow"
+              >
+                Logout
+              </Button>
+              <Button
+                onClick={this.updateAccountInfo}
+                size="lg"
+                color="primary"
+                className="box-shadow"
+              >
+                Account Information
+              </Button>
+            </FormGroup>
+          </div>
+          <div className="text-center" style={{ color: "ivory" }}>
+            <h1>Welcome to PoptheBubbleMedia!</h1>
+            <h2>
+              Your tool for popping your media bubble and broadening your
+              perspective
+            </h2>
+          </div>
+          <br />
           <NewsFeed />
+          <br />
+          <br />
         </div>
       </div>
     );

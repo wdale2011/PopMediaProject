@@ -3,6 +3,7 @@ using PopBubbleMedia.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -14,7 +15,7 @@ namespace PopBubbleMedia.Services
     {
 
         string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-
+        //Get News Articles for the client
         public List<NewsArticle> GetAll()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -50,6 +51,13 @@ namespace PopBubbleMedia.Services
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
+                //Delete old news articles
+                SqlCommand delcommand = con.CreateCommand();
+                delcommand.CommandText = "WebFeed_DeleteOld";
+                delcommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                delcommand.ExecuteNonQuery();
+                //Scrape data from Google News
                 var count = 0;
                 var results = new List<NewsArticle>();
                 //https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen
@@ -72,7 +80,7 @@ namespace PopBubbleMedia.Services
                     results.Add(newsArticle);
                     count = i;
                 }
-
+                //Insert the news articles into the database
                 foreach (var item in results)
                 {
 
@@ -89,6 +97,28 @@ namespace PopBubbleMedia.Services
 
                 return results;
             };
+        }
+
+        public int CreateAccount(UserAccount request)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                SqlCommand command = con.CreateCommand();
+                command.CommandText = "UserAccounts_Insert";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@Username", request.Username);
+                command.Parameters.AddWithValue("@Password", request.Password);
+
+                command.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                command.ExecuteNonQuery();
+
+                int newId = (int)command.Parameters["@Id"].Value;
+                return newId;
+            }
         }
     }
 }

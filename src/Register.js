@@ -22,6 +22,7 @@ class Register extends React.Component {
         password: this.state.password
       })
       .then(Response => {
+        this.setState({ registered: true });
         console.log(Response);
       })
       .catch(error => {

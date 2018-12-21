@@ -1,16 +1,18 @@
 import React from "react";
 import { Input, Card, Button } from "reactstrap";
 import axios from "axios";
+import { connect } from "react-redux";
 
 class AccountInfo extends React.Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    updated: false
   };
 
   componentDidMount = () => {
     axios
-      .get("http://localhost:50199/api/account")
+      .get(`http://localhost:50199/api/account/${this.props.user}`)
       .then(Response => {
         console.log(Response.data);
         this.setState({
@@ -24,10 +26,19 @@ class AccountInfo extends React.Component {
   };
 
   updateAccount = () => {
-    axios.put("http://localhost:50199/api/update", {
-      username: this.state.username,
-      password: this.state.password
-    });
+    axios
+      .put("http://localhost:50199/api/update", {
+        id: this.props.user,
+        username: this.state.username,
+        password: this.state.password
+      })
+      .then(Response => {
+        this.setState({ updated: true });
+        console.log(Response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   inputHandler = e => {
@@ -69,6 +80,10 @@ class AccountInfo extends React.Component {
                 name="password"
               />
               <br />
+              <span style={{ color: "green" }}>
+                {this.state.updated ? "Account updated!" : null}
+              </span>
+              <br />
               <Button onClick={this.updateAccount} color="success">
                 Update Account Information
               </Button>
@@ -83,4 +98,9 @@ class AccountInfo extends React.Component {
     );
   }
 }
-export default AccountInfo;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+export default connect(mapStateToProps)(AccountInfo);

@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Card } from "reactstrap";
 import NewsCard from "./NewsCard";
 import axios from "axios";
+import flameIcon from "./images/fire.png";
 
 class NewsFeed extends React.Component {
   state = {
@@ -56,6 +57,7 @@ class NewsFeed extends React.Component {
               <br />
               <h2>Today's News Feed</h2>
               <br />
+              <i className="twa twa-railway-car" />
               <Button color="danger" onClick={() => this.burnThePapers()}>
                 Burn all the newspapers!
               </Button>

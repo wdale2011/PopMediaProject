@@ -99,7 +99,7 @@ namespace PopBubbleMedia.Services
             };
         }
 
-        public UserAccount GetAccount()
+        public UserAccountUpdate GetAccount(int id)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -109,6 +109,8 @@ namespace PopBubbleMedia.Services
                 command.CommandText = "UserAccounts_SelectById";
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
+                command.Parameters.AddWithValue("@Id", id);
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (!reader.Read())
@@ -116,8 +118,9 @@ namespace PopBubbleMedia.Services
                         return null;
                     }
 
-                    UserAccount userAccount = new UserAccount
+                    UserAccountUpdate userAccount = new UserAccountUpdate
                     {
+                        Id = (int)reader["Id"],
                         Username = (string)reader["Username"],
                         Password = (string)reader["Password"],
                     };
@@ -127,7 +130,7 @@ namespace PopBubbleMedia.Services
             }
         }
 
-        public bool Login(string username, string password)
+        public UserAccountUpdate Login(string username, string password)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -144,10 +147,15 @@ namespace PopBubbleMedia.Services
                 {
                     if (!reader.Read())
                     {
-                        return false;
+                        return null;
                     }
 
-                    return true;
+                    UserAccountUpdate userAccount = new UserAccountUpdate
+                    {
+                        Id = (int)reader["Id"]
+                    };
+
+                    return userAccount;
                 }
             }
         }
@@ -184,7 +192,7 @@ namespace PopBubbleMedia.Services
                 command.CommandText = "UserAccounts_Update";
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
-
+                command.Parameters.AddWithValue("@Id", request.Id);
                 command.Parameters.AddWithValue("@Username", request.Username);
                 command.Parameters.AddWithValue("@Password", request.Password);
 

@@ -32,10 +32,10 @@ namespace PopBubbleMedia.Web.Controllers
             return newsArticles;
         }
 
-        [HttpGet, Route("api/account")]
-        public HttpResponseMessage GetAccount()
+        [HttpGet, Route("api/account/{id:int}")]
+        public HttpResponseMessage GetAccount(int id)
         {
-            UserAccount userAccount = newsFeedService.GetAccount();
+            UserAccountUpdate userAccount = newsFeedService.GetAccount(id);
             if (userAccount == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -49,13 +49,14 @@ namespace PopBubbleMedia.Web.Controllers
         [HttpGet, Route("api/login/{username}/{password}")]
         public HttpResponseMessage Login([FromUri]string username = "", [FromUri]string password = "")
         {
-            if (newsFeedService.Login(username, password))
+            UserAccountUpdate userAccount = newsFeedService.Login(username, password);
+            if (userAccount == null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.OK, userAccount);
             }
         }
 

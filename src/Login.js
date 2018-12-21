@@ -3,10 +3,6 @@ import { Card, Button, Input } from "reactstrap";
 import axios from "axios";
 import Store from "./Store";
 import "./HomePage.css";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 class Login extends React.Component {
@@ -31,10 +27,14 @@ class Login extends React.Component {
   };
   login = e => {
     axios
-      .get(`/api/login/${this.state.username}/${this.state.password}`)
+      .get(
+        `http://localhost:50199/api/login/${this.state.username}/${
+          this.state.password
+        }`
+      )
       .then(Response => {
         this.submit();
-        this.setUser(1);
+        this.setUser(Response.data.Id);
         console.log(Response);
       })
       .catch(error => {

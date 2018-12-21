@@ -1,12 +1,18 @@
 import React from "react";
 import { Button, FormGroup } from "reactstrap";
 import NewsFeed from "./NewsFeed";
+import Store from "./Store";
 import "./HomePage.css";
 
 class HomePage extends React.Component {
   logout = () => {
     this.props.history.push("/");
+    this.setUser(null);
   };
+
+  setUser(user) {
+    Store.dispatch({ type: "SET_USER", user });
+  }
 
   register = () => {
     this.props.history.push("/register");

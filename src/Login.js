@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Button, Input } from "reactstrap";
 import axios from "axios";
+import Store from "./Store";
 import "./HomePage.css";
 import {
   NotificationContainer,
@@ -16,6 +17,9 @@ class Login extends React.Component {
     errorMessage: ""
   };
 
+  setUser(user) {
+    Store.dispatch({ type: "SET_USER", user });
+  }
   inputHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -30,6 +34,7 @@ class Login extends React.Component {
       .get(`/api/login/${this.state.username}/${this.state.password}`)
       .then(Response => {
         this.submit();
+        this.setUser(1);
         console.log(Response);
       })
       .catch(error => {

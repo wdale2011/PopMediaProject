@@ -11,7 +11,7 @@ using System.Web.Http.Cors;
 
 namespace PopBubbleMedia.Web.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+
     public class NewsFeedController : ApiController
     {
         readonly NewsFeedService newsFeedService = new NewsFeedService();
@@ -24,15 +24,26 @@ namespace PopBubbleMedia.Web.Controllers
             return newsArticles;
         }
 
-        [HttpPut, Route("api/newsFeed")]
-
-
         [HttpGet, Route("api/newsFeed/scrapper")]
         public List<NewsArticle> RunScrapper()
         {
             List<NewsArticle> newsArticles = newsFeedService.RunScrapper();
 
             return newsArticles;
+        }
+
+        [HttpGet, Route("api/account")]
+        public HttpResponseMessage GetAccount()
+        {
+            UserAccount userAccount = newsFeedService.GetAccount();
+            if (userAccount == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, userAccount);
+            }
         }
 
         [HttpPost, Route("api/register")]
@@ -51,6 +62,24 @@ namespace PopBubbleMedia.Web.Controllers
             int newId = newsFeedService.CreateAccount(userAccount);
 
             return Request.CreateResponse(HttpStatusCode.OK, newId);
+        }
+
+        [HttpPut, Route("api/update")]
+        public HttpResponseMessage UpdateAccount(UserAccountUpdate userAccountUpdate)
+        {
+            if (userAccountUpdate == null)
+            {
+                ModelState.AddModelError("", "No body data!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            newsFeedService.UpdateAccount(userAccountUpdate);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
     }

@@ -8,8 +8,23 @@ class AccountInfo extends React.Component {
     password: ""
   };
 
+  componentDidMount = () => {
+    axios
+      .get("http://localhost:50199/api/account")
+      .then(Response => {
+        console.log(Response.data);
+        this.setState({
+          username: Response.data.Username,
+          password: Response.data.Password
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   updateAccount = () => {
-    axios.put("http://localhost:50199/api/update/1", {
+    axios.put("http://localhost:50199/api/update", {
       username: this.state.username,
       password: this.state.password
     });
@@ -54,7 +69,7 @@ class AccountInfo extends React.Component {
                 name="password"
               />
               <br />
-              <Button onClick={this.updateAccount} color="primary">
+              <Button onClick={this.updateAccount} color="success">
                 Update Account Information
               </Button>
               <br />

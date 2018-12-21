@@ -31,6 +31,8 @@ class HomePage extends React.Component {
               >
                 Logout
               </Button>
+              {"  "}
+              {"  "}
               <Button
                 onClick={this.accountInfo}
                 size="lg"

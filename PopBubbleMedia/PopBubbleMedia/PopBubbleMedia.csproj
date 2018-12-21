@@ -130,6 +130,7 @@
     </Compile>
     <Compile Include="Models\NewsArticle.cs" />
     <Compile Include="Models\UserAccount.cs" />
+    <Compile Include="Models\UserAccountUpdate.cs" />
     <Compile Include="Programs\Scrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\NewsFeedService.cs" />

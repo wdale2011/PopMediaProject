@@ -99,6 +99,34 @@ namespace PopBubbleMedia.Services
             };
         }
 
+        public UserAccount GetAccount()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                SqlCommand command = con.CreateCommand();
+                command.CommandText = "UserAccounts_SelectById";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        return null;
+                    }
+
+                    UserAccount userAccount = new UserAccount
+                    {
+                        Username = (string)reader["Username"],
+                        Password = (string)reader["Password"],
+                    };
+
+                    return userAccount;
+                }
+            }
+        }
+
         public int CreateAccount(UserAccount request)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -118,6 +146,24 @@ namespace PopBubbleMedia.Services
 
                 int newId = (int)command.Parameters["@Id"].Value;
                 return newId;
+            }
+        }
+
+        public void UpdateAccount(UserAccountUpdate request)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                SqlCommand command = con.CreateCommand();
+                command.CommandText = "UserAccounts_Update";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+
+                command.Parameters.AddWithValue("@Username", request.Username);
+                command.Parameters.AddWithValue("@Password", request.Password);
+
+                command.ExecuteNonQuery();
             }
         }
     }

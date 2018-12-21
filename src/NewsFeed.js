@@ -13,6 +13,7 @@ class NewsFeed extends React.Component {
     axios
       .get("http://localhost:50199/api/newsFeed/scrapper")
       .then(Response => {
+        console.log(Response);
         this.setState({ runGetAll: true });
         this.getFirstPage(true);
       })

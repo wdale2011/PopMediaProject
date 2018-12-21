@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "reactstrap";
+import { Button, Card } from "reactstrap";
 import NewsCard from "./NewsCard";
 import axios from "axios";
 
@@ -35,6 +35,18 @@ class NewsFeed extends React.Component {
     }
   };
 
+  burnThePapers = e => {
+    axios
+      .delete("http://localhost:50199/api/delete")
+      .then(Response => {
+        this.getFirstPage(true);
+        console.log(Response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   render() {
     return (
       <div className="col-12">
@@ -44,6 +56,9 @@ class NewsFeed extends React.Component {
               <br />
               <h2>Today's News Feed</h2>
               <br />
+              <Button color="danger" onClick={() => this.burnThePapers()}>
+                Burn all the newspapers!
+              </Button>
               <br />
               <div>
                 {this.state.newsFeed.map((news, index) => (

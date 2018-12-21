@@ -167,3 +167,4 @@ C:\SF.Code\portfolioProject\portfolio-project\PopBubbleMedia\PopBubbleMedia\obj\
 C:\SF.Code\portfolioProject\portfolio-project\PopBubbleMedia\PopBubbleMedia\obj\Debug\PopBubbleMedia.csproj.CopyComplete
 C:\SF.Code\portfolioProject\portfolio-project\PopBubbleMedia\PopBubbleMedia\obj\Debug\PopBubbleMedia.dll
 C:\SF.Code\portfolioProject\portfolio-project\PopBubbleMedia\PopBubbleMedia\obj\Debug\PopBubbleMedia.pdb
+C:\SF.Code\portfolioProject\portfolio-project\PopBubbleMedia\PopBubbleMedia\obj\Debug\PopBubbleMedia.csprojAssemblyReference.cache

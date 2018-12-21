@@ -46,6 +46,19 @@ namespace PopBubbleMedia.Web.Controllers
             }
         }
 
+        [HttpGet, Route("api/login/{username}/{password}")]
+        public HttpResponseMessage Login([FromUri]string username = "", [FromUri]string password = "")
+        {
+            if (newsFeedService.Login(username, password))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+        }
+
         [HttpPost, Route("api/register")]
         public HttpResponseMessage CreateAccount(UserAccount userAccount)
         {
@@ -79,6 +92,13 @@ namespace PopBubbleMedia.Web.Controllers
 
             newsFeedService.UpdateAccount(userAccountUpdate);
 
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpDelete, Route("api/delete")]
+        public HttpResponseMessage DeleteTopTen()
+        {
+            newsFeedService.DeleteTopTen();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 

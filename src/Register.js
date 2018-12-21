@@ -6,7 +6,9 @@ class Register extends React.Component {
   state = {
     username: "",
     password: "",
-    confirmPass: ""
+    registered: false,
+    confirmPass: "",
+    confirmMessage: "You've created a new account!"
   };
 
   inputHandler = e => {
@@ -66,6 +68,9 @@ class Register extends React.Component {
                 onChange={this.inputHandler}
                 name="confirmPass"
               />*/}
+              <span style={{ color: "green" }}>
+                {this.state.registered ? this.state.confirmMessage : null}
+              </span>
               <br />
               <Button onClick={this.register} color="primary">
                 Register

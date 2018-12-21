@@ -2,11 +2,18 @@ import React from "react";
 import { Card, Button, Input } from "reactstrap";
 import axios from "axios";
 import "./HomePage.css";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 class Login extends React.Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    error: false,
+    errorMessage: ""
   };
 
   inputHandler = e => {
@@ -17,6 +24,21 @@ class Login extends React.Component {
   };
   register = e => {
     this.props.history.push("/register");
+  };
+  login = e => {
+    axios
+      .get(`/api/login/${this.state.username}/${this.state.password}`)
+      .then(Response => {
+        this.submit();
+        console.log(Response);
+      })
+      .catch(error => {
+        this.setState({
+          errorMessage: "Invalid login credentials",
+          error: true
+        });
+        console.log(error);
+      });
   };
 
   render() {
@@ -38,6 +60,8 @@ class Login extends React.Component {
                 value={this.state.login}
                 onChange={this.inputHandler}
                 name="username"
+                invalid={this.state.error}
+                onBlur={() => this.setState({ error: false })}
               />
               <h2>Password</h2>
               <Input
@@ -45,9 +69,15 @@ class Login extends React.Component {
                 value={this.state.password}
                 onChange={this.inputHandler}
                 name="password"
+                invalid={this.state.error}
+                onBlur={() => this.setState({ error: false })}
               />
               <br />
-              <Button onClick={this.submit} color="primary">
+              <span style={{ color: "red" }} className="text-center">
+                {this.state.errorMessage ? this.state.errorMessage : null}
+              </span>
+              <br />
+              <Button onClick={this.login} color="primary">
                 Login
               </Button>
               <br />

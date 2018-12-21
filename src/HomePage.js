@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, FormGroup } from "reactstrap";
+import { Button, FormGroup } from "reactstrap";
 import NewsFeed from "./NewsFeed";
 import "./HomePage.css";
 

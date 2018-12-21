@@ -127,6 +127,31 @@ namespace PopBubbleMedia.Services
             }
         }
 
+        public bool Login(string username, string password)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                SqlCommand command = con.CreateCommand();
+                command.CommandText = "UserAccounts_Login";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@Password", password);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+        }
+
         public int CreateAccount(UserAccount request)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -162,6 +187,20 @@ namespace PopBubbleMedia.Services
 
                 command.Parameters.AddWithValue("@Username", request.Username);
                 command.Parameters.AddWithValue("@Password", request.Password);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteTopTen()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                SqlCommand command = con.CreateCommand();
+                command.CommandText = "WebFeed_DeleteTopTen";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 command.ExecuteNonQuery();
             }

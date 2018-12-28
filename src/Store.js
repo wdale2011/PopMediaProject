@@ -7,7 +7,7 @@ function reducer(state, action) {
     };
   }
 
-  if (action.type == "SET_USER") {
+  if (action.type === "SET_USER") {
     return {
       ...state,
       user: action.user

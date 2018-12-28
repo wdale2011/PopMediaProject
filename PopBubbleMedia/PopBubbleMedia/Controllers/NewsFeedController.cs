@@ -103,5 +103,12 @@ namespace PopBubbleMedia.Web.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        [HttpDelete, Route("api/delete/{id:int}")]
+        public HttpResponseMessage DeleteAccount(int id)
+        {
+            newsFeedService.DeleteAccount(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
     }
 }

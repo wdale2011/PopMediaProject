@@ -20,7 +20,7 @@ class NewsCard extends React.Component {
             <h3>Headline : {this.props.title}</h3>
             <span>
               <img
-                src={newsIcon}
+                src={this.props.image}
                 alt="newsPaperImage"
                 height={200}
                 width={200}

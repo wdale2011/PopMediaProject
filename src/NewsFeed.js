@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card } from "reactstrap";
 import NewsCard from "./NewsCard";
 import axios from "axios";
-import flameIcon from "./images/fire.png";
+import fireSmall from "./images/fireSmall.png";
 
 class NewsFeed extends React.Component {
   state = {
@@ -57,10 +57,6 @@ class NewsFeed extends React.Component {
               <br />
               <h2>Today's News Feed</h2>
               <br />
-              <i className="twa twa-railway-car" />
-              <Button color="danger" onClick={() => this.burnThePapers()}>
-                Burn all the newspapers!
-              </Button>
               <br />
               <div>
                 {this.state.newsFeed.map((news, index) => (
@@ -68,6 +64,7 @@ class NewsFeed extends React.Component {
                     <div>
                       <NewsCard
                         title={news.Name}
+                        image={news.Image}
                         link={news.Link}
                         site={news.Site}
                       />
@@ -75,6 +72,30 @@ class NewsFeed extends React.Component {
                   </div>
                 ))}
               </div>
+              <Button color="danger" onClick={() => this.burnThePapers()}>
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <span style={{ fontSize: 20 }}>Burn all the newspapers!</span>
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+                <img src={fireSmall} height={50} width={50} alt="fire" />
+              </Button>
+              <br />
+              <br />
             </Card>
           ) : null}
         </div>

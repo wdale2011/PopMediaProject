@@ -7,7 +7,8 @@ class AccountInfo extends React.Component {
   state = {
     username: "",
     password: "",
-    updated: false
+    updated: false,
+    deleted: false
   };
 
   componentDidMount = () => {
@@ -41,12 +42,28 @@ class AccountInfo extends React.Component {
       });
   };
 
+  deleteAccount = () => {
+    axios
+      .delete(`http://localhost:50199/api/delete/${this.props.user}`)
+      .then(Response => {
+        this.setState({ deleted: true });
+        console.log(Response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   inputHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   back = e => {
-    this.props.history.push("/home");
+    if (this.state.deleted) {
+      this.props.history.push("/");
+    } else {
+      this.props.history.push("/home");
+    }
   };
 
   render() {
@@ -83,14 +100,22 @@ class AccountInfo extends React.Component {
               <span style={{ color: "green" }}>
                 {this.state.updated ? "Account updated!" : null}
               </span>
+              <span style={{ color: "red" }}>
+                {this.state.deleted ? "Account deleted" : null}
+              </span>
               <br />
               <Button onClick={this.updateAccount} color="success">
                 Update Account Information
               </Button>
               <br />
+              <Button onClick={this.deleteAccount} color="danger">
+                Delete Account
+              </Button>
+              <br />
               <Button onClick={this.back} color="primary">
                 Back
               </Button>
+              <br />
             </Card>
           </div>
         </div>

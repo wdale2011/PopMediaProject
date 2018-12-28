@@ -38,6 +38,12 @@ namespace PopBubbleMedia.Services
                             Site = (string)reader["Site"]
                         };
 
+                        object image = reader["Image"];
+                        if (image != DBNull.Value)
+                        {
+                            newsArticle.Image = (string)image;
+                        }
+
                         newsArticles.Add(newsArticle);
                     }
 
@@ -67,15 +73,20 @@ namespace PopBubbleMedia.Services
 
                 var parser = new HtmlParser();
                 var document = parser.Parse(html);
-                var newsFeed = document.QuerySelectorAll("article");
-                var baseURI = "https://news.google.com/";
+                var newsFeed = document.QuerySelectorAll(".HKt8rc");
+                var newsArticles = newsFeed[0].QuerySelectorAll("article");
+                var baseURI = "https://news.google.com";
 
-                for (int i = 0; i < newsFeed.Length; i++)
+                for (int i = 0; i < newsArticles.Length; i++)
                 { 
                     var newsArticle = new NewsArticle();
-                    newsArticle.Name = newsFeed[i].Children[1].Children[0].Children[0].Children[0].Children[0].TextContent;
-                    newsArticle.Link = baseURI + newsFeed[i].Children[0].Attributes[1].Value;
-                    newsArticle.Site = newsFeed[i].Children[2].Children[0].Children[0].TextContent;
+                    newsArticle.Name = newsArticles[i].Children[1].Children[0].Children[0].Children[0].Children[0].TextContent;
+                    if (i < 11)
+                    {
+                        newsArticle.Image = newsFeed[0].Children[0].Children[0].Children[i].Children[0].QuerySelector("img").Attributes[1].Value;
+                    }
+                    newsArticle.Link = baseURI + newsArticles[i].Children[0].Attributes[1].Value;
+                    newsArticle.Site = newsArticles[i].Children[2].Children[0].Children[0].TextContent;
 
                     results.Add(newsArticle);
                     count = i;
@@ -89,6 +100,7 @@ namespace PopBubbleMedia.Services
                     command.CommandType = System.Data.CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@Name", item.Name);
+                    command.Parameters.AddWithValue("@Image", item.Image);
                     command.Parameters.AddWithValue("@Link", item.Link);
                     command.Parameters.AddWithValue("@Site", item.Site);
 
@@ -209,6 +221,22 @@ namespace PopBubbleMedia.Services
                 SqlCommand command = con.CreateCommand();
                 command.CommandText = "WebFeed_DeleteTopTen";
                 command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteAccount(int id)
+        {
+            using(SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                SqlCommand command = con.CreateCommand();
+                command.CommandText = "UserAccounts_Delete";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@Id", id);
 
                 command.ExecuteNonQuery();
             }
